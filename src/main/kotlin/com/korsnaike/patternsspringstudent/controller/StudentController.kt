@@ -1,21 +1,21 @@
 package com.korsnaike.patternsspringstudent.controller
 
-import com.korsnaike.patternsspringstudent.entity.Student
+import com.korsnaike.patternsspringstudent.model.Student
+import com.korsnaike.patternsspringstudent.schema.UpdateStudentSchema
 import com.korsnaike.patternsspringstudent.service.StudentService
-import jakarta.validation.ConstraintViolationException
 import jakarta.validation.Valid
-import jakarta.validation.ValidationException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
-import org.springframework.transaction.TransactionException
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.server.ResponseStatusException
 
 @RestController
 @RequestMapping("/api/students")
+@Validated
+@CrossOrigin(origins = ["http://localhost:3000"])
 class StudentController(@Autowired private val studentService: StudentService) {
 
     @GetMapping
@@ -29,19 +29,9 @@ class StudentController(@Autowired private val studentService: StudentService) {
     @ResponseStatus(HttpStatus.CREATED)
     fun createStudent(@RequestBody @Valid student: Student): Student = studentService.save(student)
 
-    @PutMapping("/{id}")
-    fun updateStudent(@PathVariable id: Long, @RequestBody student: Student): Student {
-        try {
-            return studentService.update(student.copy(id = id))
-        } catch (ex: TransactionException) {
-            if (ex.rootCause != null && ex.rootCause is ValidationException) {
-                throw ResponseStatusException(HttpStatus.BAD_REQUEST, (ex.rootCause as ValidationException).localizedMessage)
-            }
-            throw ex
-        } catch (ex: ValidationException) {
-            throw ResponseStatusException(HttpStatus.BAD_REQUEST, ex.localizedMessage)
-        }
-    }
+    @PatchMapping("/{id}")
+    fun updateStudent(@PathVariable id: Long, @RequestBody @Valid dto: UpdateStudentSchema): Student =
+        studentService.update(id, dto)
 
 
     @DeleteMapping("/{id}")

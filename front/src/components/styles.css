@@ -1,0 +1,234 @@
+/* styles.css */
+.container {
+    padding: 16px;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to bottom, #f9f9f9, #eaeaea);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.filter-container {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.filter-container .MuiTextField-root {
+    flex: 1;
+    min-width: 200px;
+}
+
+.add-button {
+    margin-bottom: 16px;
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    color: white;
+    transition: transform 0.3s ease, background 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.add-button:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(45deg, #2575fc, #6a11cb);
+}
+
+.table-container {
+    margin-top: 16px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table-header {
+    background-color: #1976d2;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.table-header .MuiTableSortLabel-root {
+    color: white;
+}
+
+.table-row {
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.table-row:hover {
+    background-color: #f0f8ff;
+}
+
+.actions-button {
+    margin-right: 8px;
+    color: #1976d2;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border-radius: 8px;
+    padding: 4px 8px;
+}
+
+.actions-button:hover {
+    background-color: rgba(25, 118, 210, 0.1);
+    transform: scale(1.05);
+}
+
+.pagination {
+    margin: 16px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination .MuiPaginationItem-root {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #1976d2;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.pagination .MuiPaginationItem-root:hover {
+    background-color: rgba(25, 118, 210, 0.1);
+    transform: scale(1.1);
+}
+
+.dialog {
+    animation: fadeIn 0.3s ease;
+}
+
+.dialog .MuiDialogContent-root {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.dialog .MuiDialogTitle-root {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    color: white;
+    padding: 16px;
+    border-radius: 8px 8px 0 0;
+}
+
+.dialog .MuiButton-root {
+    font-weight: bold;
+}
+
+.dialog .MuiButton-root:first-of-type {
+    background-color: #f44336;
+    color: white;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.dialog .MuiButton-root:first-of-type:hover {
+    background-color: #d32f2f;
+    transform: translateY(-2px);
+}
+
+.dialog .MuiButton-root:last-of-type {
+    background-color: #4caf50;
+    color: white;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.dialog .MuiButton-root:last-of-type:hover {
+    background-color: #388e3c;
+    transform: translateY(-2px);
+}
+
+/* Keyframes for dialog animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .filter-container {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .filter-container .MuiTextField-root {
+        width: 100%;
+    }
+
+    .add-button {
+        width: 100%;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+}
+
+/* styles.css */
+
+/* Стили для кнопки добавления */
+.add-button {
+    margin-bottom: 16px;
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    color: white;
+    transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    font-weight: bold;
+    position: relative;
+    overflow: hidden;
+    padding: 12px 24px;
+}
+
+.add-button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(45deg, #2575fc, #6a11cb);
+    box-shadow: 0 8px 15px rgba(37, 117, 252, 0.4);
+    animation: pulse 0.8s infinite;
+}
+
+/* Анимация пульсации */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 4px 6px rgba(37, 117, 252, 0.1);
+    }
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 8px 15px rgba(37, 117, 252, 0.3);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 4px 6px rgba(37, 117, 252, 0.1);
+    }
+}
+
+/* Светящийся эффект при наведении */
+.add-button::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(37, 117, 252, 0.2), transparent 60%);
+    transform: scale(0);
+    opacity: 0;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    border-radius: 50%;
+}
+
+.add-button:hover::before {
+    transform: scale(1.2);
+    opacity: 1;
+}

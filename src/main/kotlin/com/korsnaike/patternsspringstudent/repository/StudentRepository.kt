@@ -1,6 +1,6 @@
 package com.korsnaike.patternsspringstudent.repository
 
-import com.korsnaike.patternsspringstudent.entity.Student
+import com.korsnaike.patternsspringstudent.model.Student
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 

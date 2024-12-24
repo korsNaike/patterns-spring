@@ -1,6 +1,6 @@
 package com.korsnaike.patternsspringstudent.validators.unique
 
-import com.korsnaike.patternsspringstudent.entity.Student
+import com.korsnaike.patternsspringstudent.model.Student
 import jakarta.validation.ConstraintValidator
 import jakarta.validation.ConstraintValidatorContext
 import org.springframework.stereotype.Component

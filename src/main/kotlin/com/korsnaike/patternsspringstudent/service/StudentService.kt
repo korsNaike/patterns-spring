@@ -1,7 +1,8 @@
 package com.korsnaike.patternsspringstudent.service
 
-import com.korsnaike.patternsspringstudent.entity.Student
+import com.korsnaike.patternsspringstudent.model.Student
 import com.korsnaike.patternsspringstudent.repository.StudentRepository
+import com.korsnaike.patternsspringstudent.schema.UpdateStudentSchema
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
@@ -20,12 +21,10 @@ class StudentService(@Autowired private val studentRepository: StudentRepository
 
     fun save(student: Student): Student = studentRepository.save(student)
 
-    fun update(@Valid student: Student): Student {
-        if (!studentRepository.existsById(student.id)) {
-            val id = student.id
-            throw NoSuchElementException("Student with id $id not found")
-        }
-        return studentRepository.save(student)
+    fun update(id: Long, schema: UpdateStudentSchema): Student {
+        val student = studentRepository.findById(id).orElseThrow { NoSuchElementException("Student not found") }
+
+        return studentRepository.save(student.updateFromDto(schema))
     }
 
     fun deleteById(id: Long) {
@@ -46,14 +45,43 @@ class StudentService(@Autowired private val studentRepository: StudentRepository
         pageable: Pageable
     ): Page<Student> {
         val spec = Specification.where<Student>(null)
-            .and(firstName?.let { Specification<Student> { root, _, cb -> cb.equal(root.get<String>("firstName"), it) } })
-            .and(lastName?.let { Specification<Student> { root, _, cb -> cb.equal(root.get<String>("lastName"), it) } })
-            .and(middleName?.let { Specification<Student> { root, _, cb -> cb.equal(root.get<String>("middleName"), it) } })
-            .and(email?.let { Specification<Student> { root, _, cb -> cb.equal(root.get<String>("email"), it) } })
-            .and(telegram?.let { Specification<Student> { root, _, cb -> cb.equal(root.get<String>("telegram"), it) } })
-            .and(phone?.let { Specification<Student> { root, _, cb -> cb.equal(root.get<String>("phone"), it) } })
-            .and(git?.let { Specification<Student> { root, _, cb -> cb.equal(root.get<String>("git"), it) } })
+            .and(firstName?.let {
+                Specification<Student> { root, _, cb ->
+                    cb.like(cb.lower(root.get("firstName")), "%${it.lowercase()}%")
+                }
+            })
+            .and(lastName?.let {
+                Specification<Student> { root, _, cb ->
+                    cb.like(cb.lower(root.get("lastName")), "%${it.lowercase()}%")
+                }
+            })
+            .and(middleName?.let {
+                Specification<Student> { root, _, cb ->
+                    cb.like(cb.lower(root.get("middleName")), "%${it.lowercase()}%")
+                }
+            })
+            .and(email?.let {
+                Specification<Student> { root, _, cb ->
+                    cb.like(cb.lower(root.get("email")), "%${it.lowercase()}%")
+                }
+            })
+            .and(telegram?.let {
+                Specification<Student> { root, _, cb ->
+                    cb.like(cb.lower(root.get("telegram")), "%${it.lowercase()}%")
+                }
+            })
+            .and(phone?.let {
+                Specification<Student> { root, _, cb ->
+                    cb.like(cb.lower(root.get("phone")), "%${it.lowercase()}%")
+                }
+            })
+            .and(git?.let {
+                Specification<Student> { root, _, cb ->
+                    cb.like(cb.lower(root.get("git")), "%${it.lowercase()}%")
+                }
+            })
 
         return studentRepository.findAll(spec, pageable)
     }
+
 }

@@ -1,5 +1,6 @@
-package com.korsnaike.patternsspringstudent.entity
+package com.korsnaike.patternsspringstudent.model
 
+import com.korsnaike.patternsspringstudent.schema.UpdateStudentSchema
 import jakarta.persistence.*
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.Pattern
@@ -63,6 +64,14 @@ data class Student(
 ) {
     @PrePersist
     fun prePersist() {
-        createdAt = Date() // Set the createdAt date only when the entity is persisted
+        createdAt = Date() // Установка даты создания
+    }
+
+    fun updateFromDto(schema: UpdateStudentSchema): Student {
+        return this.copy(
+            firstName = schema.firstName ?: this.firstName,
+            lastName = schema.lastName ?: this.lastName,
+            middleName = schema.middleName ?: this.middleName
+        )
     }
 }
