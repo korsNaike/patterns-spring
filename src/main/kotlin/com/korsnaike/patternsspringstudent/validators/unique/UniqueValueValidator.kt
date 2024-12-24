@@ -1,5 +1,6 @@
 package com.korsnaike.patternsspringstudent.validators.unique
 
+import com.korsnaike.patternsspringstudent.entity.Student
 import jakarta.validation.ConstraintValidator
 import jakarta.validation.ConstraintValidatorContext
 import org.springframework.stereotype.Component
@@ -22,16 +23,28 @@ class UniqueValueValidator : ConstraintValidator<UniqueValue, Any> {
 
     override fun isValid(value: Any?, context: ConstraintValidatorContext): Boolean {
         if (value == null) {
-            return true // Ничего не проверяем, если значение null
+            return true
         }
+
+        // Извлекаем корневой объект, который валидируется
+        val rootBean = context.unwrap(org.hibernate.validator.constraintvalidation.HibernateConstraintValidatorContext::class.java) as? Student
+
+        val currentId = rootBean?.id
+
         if (!::entityManager.isInitialized) {
             return true
         }
 
         val query = entityManager.createQuery(
-            "SELECT COUNT(e) FROM ${entityClass.simpleName} e WHERE e.$fieldName = :value"
+            """
+        SELECT COUNT(e) 
+        FROM ${entityClass.simpleName} e 
+        WHERE e.$fieldName = :value 
+        AND (:id IS NULL OR e.id != :id)
+        """
         )
         query.setParameter("value", value)
+        query.setParameter("id", currentId)
 
         val count = query.singleResult as Long
         return count == 0L

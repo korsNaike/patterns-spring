@@ -11,7 +11,6 @@ annotation class UniqueValue(
     val message: String = "Value must be unique",
     val fieldName: String,
     val entityClass: KClass<*>,
-    val excludeId: Long = 0, // добавляем параметр для исключения id
     val groups: Array<KClass<*>> = [],
     val payload: Array<KClass<out Payload>> = []
 )

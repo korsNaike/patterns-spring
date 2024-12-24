@@ -2,6 +2,7 @@ package com.korsnaike.patternsspringstudent.service
 
 import com.korsnaike.patternsspringstudent.entity.Student
 import com.korsnaike.patternsspringstudent.repository.StudentRepository
+import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -19,11 +20,12 @@ class StudentService(@Autowired private val studentRepository: StudentRepository
 
     fun save(student: Student): Student = studentRepository.save(student)
 
-    fun update(id: Long, student: Student): Student {
-        if (!studentRepository.existsById(id)) {
+    fun update(@Valid student: Student): Student {
+        if (!studentRepository.existsById(student.id)) {
+            val id = student.id
             throw NoSuchElementException("Student with id $id not found")
         }
-        return studentRepository.save(student.copy(id = id))
+        return studentRepository.save(student)
     }
 
     fun deleteById(id: Long) {

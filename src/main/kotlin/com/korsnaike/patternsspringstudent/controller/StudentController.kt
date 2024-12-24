@@ -26,8 +26,8 @@ class StudentController(@Autowired private val studentService: StudentService) {
     fun createStudent(@RequestBody @Valid student: Student): Student = studentService.save(student)
 
     @PutMapping("/{id}")
-    fun updateStudent(@PathVariable id: Long, @RequestBody @Valid student: Student): Student =
-        studentService.update(id, student)
+    fun updateStudent(@PathVariable id: Long, @RequestBody student: Student): Student =
+        studentService.update(student.copy(id = id))
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
